@@ -43,7 +43,7 @@ io.on('connection', (socket) => {
   });
 });
 
-const Poll = require('./model/poll');
+
 
 
 setInterval(async () => {
