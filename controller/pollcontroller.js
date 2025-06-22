@@ -1,5 +1,6 @@
 const Poll = require('../model/poll')
 const mongoose = require('mongoose');
+
 const createPoll = async (req, res) => {
     try {
         const { question, options, expiresAt, createdBy } = req.body.data;

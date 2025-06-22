@@ -43,6 +43,27 @@ io.on('connection', (socket) => {
   });
 });
 
+const Poll = require('./model/poll');
+
+
+setInterval(async () => {
+    try {
+      const now = new Date();
+
+      const result = await Poll.updateMany(
+        { expiresAt: { $lte: now }, isActive: true },
+        { $set: { isActive: false } }
+      );
+
+      if (result.modifiedCount > 0) {
+        console.log(`[Poll Expiry] Expired ${result.modifiedCount} poll(s) at ${now.toISOString()}`);
+      }
+    } catch (err) {
+      console.error('[Poll Expiry Error]', err.message);
+    }
+  }, 60 * 1000);
+
+
 const port= process.env.APP_PORT || 8002
 server.listen(port,()=>{
     console.log("Server running on the "+port);
